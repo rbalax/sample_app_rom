@@ -35,6 +35,8 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
+  host = '2daae74ce9d949a78a029c4228f1cfc3.vfs.cloud9.us-east-2.amazonaws.com' 
+  config.action_mailer.default_url_options = { host: host, protocol: 'https' }
 
   config.action_mailer.perform_caching = false
 
