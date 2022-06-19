@@ -32,3 +32,10 @@ local:
 #   service: Mirror
 #   primary: local
 #   mirrors: [ amazon, google, microsoft ]
+
+amazon:
+  service: S3
+  access_key_id:     <%= ENV['AKIAQX5YEYYN5EAWMLWZ'] %>
+  secret_access_key: <%= ENV['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'] %>
+  region:            <%= ENV['us-east-2'] %>
+  bucket:            <%= ENV['rortutorialrom'] %>
