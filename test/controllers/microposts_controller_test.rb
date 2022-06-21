@@ -28,10 +28,4 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to root_url
   end
-<<<<<<< HEAD
-  
 end
-
-=======
-end
->>>>>>> user-microposts

@@ -35,7 +35,7 @@ local:
 
 amazon:
   service: S3
-  access_key_id:     <%= ENV['AKIAQX5YEYYN5EAWMLWZ'] %>
-  secret_access_key: <%= ENV['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'] %>
-  region:            <%= ENV['us-east-2'] %>
-  bucket:            <%= ENV['rortutorialrom'] %>
+  access_key_id:     <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region:            <%= ENV['AWS_REGION'] %>
+  bucket:            <%= ENV['AWS_BUCKET'] %>

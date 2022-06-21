@@ -3,6 +3,14 @@ class User < ApplicationRecord
   before_save   :downcase_email
   before_create :create_activation_digest
   has_many :microposts, dependent: :destroy
+  has_many :active_relationships, class_name:  "Relationship",
+                                  foreign_key: "follower_id",
+                                  dependent:   :destroy
+  has_many :passive_relationships, class_name:  "Relationship",
+                                   foreign_key: "followed_id",
+                                   dependent:   :destroy
+  has_many :following, through: :active_relationships, source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower
   
   validates :name,  presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -30,7 +38,7 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, User.digest(remember_token))
     remember_digest
   end
-  
+   
   def session_token
     remember_digest || remember
   end
@@ -79,6 +87,36 @@ class User < ApplicationRecord
   # See "Following users" for the full implementation.
   def feed
     Micropost.where("user_id = ?", id)
+  end
+  
+  # Follows a user.
+  def follow(other_user)
+    following << other_user unless self == other_user
+  end
+
+  # Unfollows a user.
+  def unfollow(other_user)
+    following.delete(other_user)
+  end
+
+  # Returns true if the current user is following the other user.
+  def following?(other_user)
+    following.include?(other_user)
+  end
+  
+  
+  def following
+    @title = "Following"
+    @user  = User.find(params[:id])
+    @users = @user.following.paginate(page: params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @title = "Followers"
+    @user  = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
   end
   
   private
